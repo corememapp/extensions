@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoreMem</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- Login view -->
+  <div id="view-login" class="view hidden">
+    <div class="login-header">
+      <img src="icons/icon128.png" class="login-logo" alt="" />
+      <div class="wordmark wordmark-lg"><span class="wordmark-core">Core</span><span class="wordmark-mem">Mem</span></div>
+      <p class="login-subtitle">Sign in to access your mems</p>
+    </div>
+    <form id="login-form" class="login-form">
+      <button type="button" id="google-btn" class="btn-google">
+        <svg width="16" height="16" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="divider">or</div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <p id="login-error" class="error hidden"></p>
+      <button type="submit" id="login-btn" class="btn-primary">Sign in</button>
+      <p class="forgot-link"><a id="forgot-link" href="#">Forgot password?</a></p>
+    </form>
+  </div>
+
+  <!-- Main view -->
+  <div id="view-main" class="view hidden">
+    <div class="topbar">
+      <div class="topbar-left">
+        <img src="icons/icon32.png" class="topbar-logo" alt="" />
+        <div class="wordmark"><span class="wordmark-core">Core</span><span class="wordmark-mem">Mem</span></div>
+      </div>
+      <div class="topbar-right">
+        <button id="signout-btn" class="icon-btn" title="Sign out">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-field">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search-input" type="text" placeholder="Search mems…" />
+        <button id="search-clear" class="search-clear hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="filter-wrap">
+        <button id="filter-btn" class="icon-btn filter-btn" title="Sort and filter">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        </button>
+        <div id="filter-dropdown" class="filter-dropdown hidden">
+          <button class="filter-option active" data-sort="updated">Recently updated</button>
+          <button class="filter-option" data-sort="name">Name (A–Z)</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mem-list" class="mem-list"></div>
+
+    <div id="loading" class="state-msg hidden">Loading…</div>
+    <div id="empty" class="state-msg hidden">No mems found.</div>
+    <div id="list-error" class="state-msg error hidden"></div>
+
+    <div id="copy-toast" class="copy-toast hidden">Copied to clipboard</div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

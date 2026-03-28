@@ -1,0 +1,117 @@
+{
+  "name": "coremem-vscode",
+  "displayName": "CoreMem",
+  "description": "Browse and insert CoreMem mems inside VS Code, Cursor, and Kiro.",
+  "version": "0.1.0",
+  "publisher": "coremem",
+  "license": "UNLICENSED",
+  "icon": "media/extension-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corememapp/coremem-web.git"
+  },
+  "files": [
+    "dist",
+    "media",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "coremem",
+    "memory",
+    "mcp",
+    "cursor",
+    "kiro"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:coremem.signIn",
+    "onCommand:coremem.signOut",
+    "onCommand:coremem.searchMems",
+    "onCommand:coremem.insertMem",
+    "onCommand:coremem.copyMem",
+    "onView:coremem.sidebar"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "coremem",
+          "title": "CoreMem",
+          "icon": "media/coremem-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "coremem": [
+        {
+          "id": "coremem.sidebar",
+          "name": "Mems",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "coremem.searchMems",
+        "title": "CoreMem: Search Mems"
+      },
+      {
+        "command": "coremem.insertMem",
+        "title": "CoreMem: Insert Mem"
+      },
+      {
+        "command": "coremem.copyMem",
+        "title": "CoreMem: Copy Mem"
+      },
+      {
+        "command": "coremem.signIn",
+        "title": "CoreMem: Sign In"
+      },
+      {
+        "command": "coremem.signOut",
+        "title": "CoreMem: Sign Out"
+      }
+    ],
+    "menus": {
+      "view/title": [
+      ]
+    },
+    "configuration": {
+      "title": "CoreMem",
+      "properties": {
+        "coremem.apiBaseUrl": {
+          "type": "string",
+          "default": "https://ncleqoagkltbdhtdnvdi.supabase.co",
+          "description": "The CoreMem Supabase API base URL."
+        },
+        "coremem.defaultListLimit": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Maximum number of mems loaded into the sidebar and quick-pick search."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npm run compile && vsce package",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.6.2",
+    "typescript": "^5.8.3"
+  }
+}
