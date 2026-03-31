@@ -125,22 +125,17 @@ export class CoreMemClient {
     this.verifiedProUserId = null;
   }
 
-  async listMems(limit?: number): Promise<MemListItem[]> {
-    const requestedLimit = Number(limit ?? this.getConfig().defaultListLimit) || 50;
-    const normalizedLimit = Math.max(1, Math.min(50, requestedLimit));
-    const path =
-      `mems?select=id,name,content,slug,is_public,updated_at&order=updated_at.desc&limit=${normalizedLimit}`;
-
-    return this.apiFetch<MemListItem[]>(path);
+  async listMems(_limit?: number): Promise<MemListItem[]> {
+    return this.apiRpc<MemListItem[]>("get_my_mems", {});
   }
 
   async getMem(id: string): Promise<MemDetails> {
-    const path = `mems?id=eq.${encodeURIComponent(id)}&select=id,name,content,slug,is_public,updated_at`;
-    const rows = await this.apiFetch<MemDetails[]>(path);
-    if (!rows[0]) {
+    const rows = await this.apiRpc<(MemDetails & { deleted_at: string | null })[]>("get_mem_by_id", { p_mem_id: id });
+    const mem = rows[0];
+    if (!mem || mem.deleted_at) {
       throw new Error("Mem not found.");
     }
-    return rows[0];
+    return mem;
   }
 
   async getCurrentProfile(): Promise<CoreMemProfile> {
@@ -162,6 +157,42 @@ export class CoreMemClient {
 
   getMemUrl(username: string, memId: string): string {
     return `${COREMEM_APP_BASE_URL}/${encodeURIComponent(username)}/mem/${encodeURIComponent(memId)}`;
+  }
+
+  private async apiRpc<T>(fn: string, body: object): Promise<T> {
+    const session = await this.authStore.getSession();
+    if (!session) {
+      throw new Error("unauthenticated");
+    }
+
+    await this.ensureProAccess(session);
+
+    const makeRequest = async (accessToken: string) =>
+      fetch(`${this.getConfig().apiBaseUrl}/rest/v1/rpc/${fn}`, {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+    let response = await makeRequest(session.accessToken);
+    if (response.status === 401) {
+      const refreshed = await this.refreshSession(session);
+      if (!refreshed) {
+        throw new Error("unauthenticated");
+      }
+      await this.ensureProAccess(refreshed);
+      response = await makeRequest(refreshed.accessToken);
+    }
+
+    if (!response.ok) {
+      throw new Error(`CoreMem request failed with ${response.status}`);
+    }
+
+    return response.json() as Promise<T>;
   }
 
   private async apiFetch<T>(path: string): Promise<T> {
