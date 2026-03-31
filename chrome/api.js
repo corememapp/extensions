@@ -109,7 +109,7 @@ async function signOut() {
 }
 
 async function fetchMems() {
-  return apiFetch("mems?select=id,name,content,slug,is_public,updated_at&order=name.asc");
+  return apiFetch("rpc/get_my_mems", { method: "POST", body: JSON.stringify({}) });
 }
 
 async function fetchProfile() {
