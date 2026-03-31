@@ -21,7 +21,19 @@ async function init() {
   loadProfile();
 }
 
-async function loadProfile() {}
+async function loadProfile() {
+  try {
+    const profile = await fetchProfile();
+    if (profile?.username) {
+      const label = el("username-label");
+      label.textContent = profile.username;
+      label.addEventListener("click", (e) => {
+        e.preventDefault();
+        chrome.tabs.create({ url: `https://coremem.app/${profile.username}` });
+      });
+    }
+  } catch (_) {}
+}
 
 async function loadMems() {
   el("loading").classList.remove("hidden");
@@ -184,8 +196,11 @@ el("forgot-link").addEventListener("click", (e) => {
 
 el("signout-btn").addEventListener("click", async () => {
   await signOut();
-  el("username-label").textContent = "";
   showView("login");
+});
+
+el("refresh-btn").addEventListener("click", () => {
+  loadMems();
 });
 
 el("filter-btn").addEventListener("click", (e) => {
