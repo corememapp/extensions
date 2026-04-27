@@ -85,9 +85,25 @@
       <a id="username-label" class="user-footer-username" href="#"></a>
       <button id="signout-btn" class="user-footer-logout">Logout</button>
     </div>
-
-    <div id="copy-toast" class="copy-toast hidden">Copied to clipboard</div>
   </div>
+
+  <!-- Detail view -->
+  <div id="view-detail" class="view hidden">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="detail-back-btn" class="icon-btn" title="Back">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span id="detail-mem-name" class="detail-mem-name"></span>
+      </div>
+    </div>
+    <div id="detail-object-list" class="detail-object-list"></div>
+    <div class="detail-footer">
+      <button id="detail-copy-all-btn" class="btn-primary">Copy all</button>
+    </div>
+  </div>
+
+  <div id="copy-toast" class="copy-toast hidden">Copied to clipboard</div>
 
   <script src="api.js"></script>
   <script src="popup.js"></script>

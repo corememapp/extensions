@@ -112,6 +112,10 @@ async function fetchMems() {
   return apiFetch("rpc/get_my_mems", { method: "POST", body: JSON.stringify({}) });
 }
 
+async function fetchMemObjects(memId) {
+  return apiFetch(`mem_objects?mem_id=eq.${memId}&order=position.asc&select=id,type,content,position,name`);
+}
+
 async function fetchProfile() {
   const { user } = await chrome.storage.local.get("user");
   if (!user) return null;
