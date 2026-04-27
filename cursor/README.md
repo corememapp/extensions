@@ -6,7 +6,7 @@ Browse, search, and insert your [CoreMem](https://coremem.app) mems directly fro
 
 - Cursor (any recent version)
 - A CoreMem account ([coremem.app](https://coremem.app))
-- Pro plan
+- Pro plan required for write access (MCP reads are free via OAuth)
 
 ## Installation
 
@@ -50,6 +50,25 @@ cursor --install-extension coremem.coremem
 ## Notes
 
 The VSIX package is shared with the VS Code extension in [`../vscode`](../vscode). If you are developing or building the extension, work from that folder.
+
+## MCP server
+
+Cursor also supports CoreMem via MCP, which lets Cursor read and write your mems directly. Add the following to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "coremem": {
+      "url": "https://api.coremem.app/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+Generate an API key at [coremem.app/developers](https://coremem.app/developers). Reading mems via MCP is free; creating and updating mems requires a Pro plan.
 
 ## Support
 
