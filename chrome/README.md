@@ -1,6 +1,6 @@
 # CoreMem for Chrome
 
-Browse, search, and copy your [CoreMem](https://coremem.app) mems directly from Chrome. The extension opens as a popup so you can grab context and paste it into ChatGPT, Claude, Gemini, or any other text input without leaving your current tab.
+Browse, search, and copy your [CoreMem](https://coremem.app) mems directly from Chrome as plain text from your CoreMem account. You can paste into ChatGPT, Claude, Gemini, or any other text input without leaving your current tab.
 
 ![CoreMem Chrome extension screenshot](./chrome-extension-screenshot.png)
 
@@ -8,7 +8,6 @@ Browse, search, and copy your [CoreMem](https://coremem.app) mems directly from 
 
 - Google Chrome or another Chromium-based browser with Chrome extension support
 - A CoreMem account ([coremem.app](https://coremem.app))
-- Free or Pro plan
 - A local clone of this repository
 
 ## Installation
